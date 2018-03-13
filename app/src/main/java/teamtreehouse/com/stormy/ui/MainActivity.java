@@ -1,5 +1,6 @@
 package teamtreehouse.com.stormy.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -64,12 +65,7 @@ public class MainActivity extends AppCompatActivity {
         final double latitude = 37.8267;
         final double longitude = -122.423;
 
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getForecast(latitude, longitude);
-            }
-        });
+        mRefreshImageView.setOnClickListener(v -> getForecast(latitude, longitude));
 
         getForecast(latitude, longitude);
 
@@ -77,9 +73,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getForecast(double latitude, double longitude) {
-        String apiKey = "ADD YOUR OWN API KEY"; // TODO: Replace this with your own API key from forecast.io
-        String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
-                "/" + latitude + "," + longitude;
+        String apiKey = "520452b8589bae0fb8ee0faf6a6eb221";
+        String forecastUrl = "https://api.forecast.io/forecast/" + apiKey + "/" + latitude + "," + longitude;
 
         if (isNetworkAvailable()) {
             toggleRefresh();
@@ -93,35 +88,20 @@ public class MainActivity extends AppCompatActivity {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
+                    runOnUiThread(() -> toggleRefresh());
                     alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
+                    runOnUiThread(() -> toggleRefresh());
 
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             mForecast = parseForecastDetails(jsonData);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateDisplay();
-                                }
-                            });
+                            runOnUiThread(() -> updateDisplay());
                         } else {
                             alertUserAboutError();
                         }
@@ -152,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateDisplay() {
         Current current = mForecast.getCurrent();
 
