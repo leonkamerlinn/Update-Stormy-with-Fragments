@@ -11,5 +11,15 @@
     <string name="title_activity_daily_forecast">DailyForecastActivity</string>
     <string name="no_daily_forecast_data">There is no data to display.</string>
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
+    <string name="summary">SUMMARY</string>
+    <string name="hourly">HOURLY</string>
+    <string name="daily">DAILY</string>
+    <string name="getting_current_weather">Getting current weather...</string>
+    <string name="dash_dash">--</string>
+    <string name="rain_snow">RAIN/SNOW?</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="alcatraz_island_ca">Alcatraz Island, CA</string>
+    <string name="three_dots">...</string>
+    <string name="todo">TODO</string>
 
 </resources>

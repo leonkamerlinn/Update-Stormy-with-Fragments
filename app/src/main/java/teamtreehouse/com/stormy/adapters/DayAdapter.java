@@ -26,7 +26,13 @@ public class DayAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if (mDays == null) return 0;
         return mDays.length;
+    }
+
+    public void setDays(Day[] days) {
+        mDays = days;
+        notifyDataSetChanged();
     }
 
     @Override

@@ -37,8 +37,14 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         holder.bindHour(mHours[position]);
     }
 
+    public void setHours(Hour[] hours) {
+        mHours = hours;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
+        if (mHours == null) return 0;
         return mHours.length;
     }
 
