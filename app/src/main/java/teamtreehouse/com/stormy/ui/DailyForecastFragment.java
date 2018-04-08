@@ -40,11 +40,12 @@ public class DailyForecastFragment extends Fragment {
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
 
         ForecastApplication forecastApplication = (ForecastApplication)getActivity().getApplication();
-        mDays = forecastApplication.getForecast().getDailyForecast();
+
 
         mListView.setAdapter(forecastApplication.getDayAdapter());
         mListView.setEmptyView(mEmptyTextView);
         mListView.setOnItemClickListener((parent, view, position, id) -> {
+            mDays = forecastApplication.getForecast().getDailyForecast();
             String dayOfTheWeek = mDays[position].getDayOfTheWeek();
             String conditions = mDays[position].getSummary();
             String highTemp = mDays[position].getTemperatureMax() + "";
