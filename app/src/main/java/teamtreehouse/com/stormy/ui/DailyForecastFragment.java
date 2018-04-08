@@ -40,7 +40,7 @@ public class DailyForecastFragment extends Fragment {
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
 
         ForecastApplication forecastApplication = (ForecastApplication)getActivity().getApplication();
-
+        mDays = forecastApplication.getForecast().getDailyForecast();
 
         mListView.setAdapter(forecastApplication.getDayAdapter());
         mListView.setEmptyView(mEmptyTextView);
@@ -52,6 +52,7 @@ public class DailyForecastFragment extends Fragment {
                     dayOfTheWeek,
                     highTemp,
                     conditions);
+
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         });
     }

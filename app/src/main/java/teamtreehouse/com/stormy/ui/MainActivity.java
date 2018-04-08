@@ -1,11 +1,14 @@
 package teamtreehouse.com.stormy.ui;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,7 +17,10 @@ import teamtreehouse.com.stormy.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CustomPagerAdapter mCustomPagerAdapter;
+    private static final String SUMMARY_FORECAST_TAG = "summary_forecast_tag";
+    private static final String HOURLY_FORECAST_TAG = "hourly_forecast_tag";
+    private static final String DAILY_FORECAST_TAG = "daily_forecast_tag";
+
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
@@ -25,13 +31,41 @@ public class MainActivity extends AppCompatActivity {
 
         ForecastApplication forecastApplication = (ForecastApplication) getApplication();
         forecastApplication.setActivity(this);
-        mCustomPagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), this);
+
+
 
         mTabLayout = findViewById(R.id.tabLayout);
+        if (mTabLayout != null) {
+            mViewPager = findViewById(R.id.pager);
+            mViewPager.setAdapter(new CustomPagerAdapter(getSupportFragmentManager(), this));
+            mTabLayout.setupWithViewPager(mViewPager);
+        } else {
 
-        mViewPager = findViewById(R.id.pager);
-        mViewPager.setAdapter(mCustomPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.left, new SummaryForecastFragment(), SUMMARY_FORECAST_TAG)
+                        .add(R.id.center, new HourlyForecastFragment(), HOURLY_FORECAST_TAG)
+                        .add(R.id.right, new DailyForecastFragment(), DAILY_FORECAST_TAG)
+                        .commit();
+
+
+        }
+
+
+
+    }
+
+    public void setBackground(int temperature) {
+          if (temperature > 70) {
+                //hot
+              findViewById(R.id.root).setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient_hot));
+          } else if(temperature > 50 && temperature <= 70) {
+                //cool
+              findViewById(R.id.root).setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient_cool));
+          } else {
+                //cold
+              findViewById(R.id.root).setBackground(ContextCompat.getDrawable(this, R.drawable.bg_gradient_cold));
+          }
+
     }
 
 
